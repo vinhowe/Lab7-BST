@@ -30,5 +30,4 @@ public:
 	* @return the right child of this node or null if it doesn't have one.
 	*/
 	virtual NodeInterface * getRightChild() const = 0;
-
 };
