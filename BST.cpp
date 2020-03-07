@@ -31,6 +31,24 @@ Node* BST::insert(Node* node, int data) {
   return node;
 }
 
-bool BST::remove(int data) { return false; }
+bool BST::remove(int data) {
+
+}
 
 void BST::clear() {}
+
+bool BST::removeNode(Node* node, int data) {
+  if (node == nullptr) {
+    return false;
+  }
+
+  if (node->getData() == data) {
+    if (node->getRightChild() == nullptr && node->getLeftChild() == nullptr) {
+      // TODO: See whether or not it's better to use free()
+      delete node;
+    }
+    if (node->getRightChild() == nullptr && node->getLeftChild() != nullptr) {
+
+    }
+  }
+}

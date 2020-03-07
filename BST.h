@@ -45,5 +45,7 @@ class BST : public BSTInterface {
  private:
   Node* root = nullptr;
 
-  static Node* insert(Node* node, int value);
+  static Node* insert(Node* node, int data);
+
+  static bool removeNode(Node* node, int data);
 };
