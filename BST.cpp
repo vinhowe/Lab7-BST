@@ -8,7 +8,9 @@
 
 BST::BST() {}
 
-BST::~BST() {}
+BST::~BST() {
+  clear();
+}
 
 Node* BST::getRootNode() const { return root; }
 
@@ -20,41 +22,57 @@ bool BST::insert(Node*& node, int data) {
     return true;
   }
 
-  if (data < node->getData()) {
+  if (data < node->data) {
     return insert(node->left, data);
-  } else if (data > node->getData()) {
+  } else if (data > node->data) {
     return insert(node->right, data);
   }
 
   return false;
 }
 
-bool BST::remove(int data) {
-  return removeNode(root, data);
+bool BST::remove(int data) { return removeNode(root, data); }
+
+void BST::clear() {
+  removeSubtree(root);
 }
 
-void BST::clear() {}
+void BST::removeSubtree(Node*& node) {
+  if (node == nullptr) {
+    return;
+  }
+
+  if (node->left != nullptr) {
+    removeSubtree(node->left);
+  }
+  if (node->right != nullptr) {
+    removeSubtree(node->right);
+  }
+
+  delete node;
+  node = nullptr;
+}
 
 bool BST::removeNode(Node*& node, int data) {
   if (node == nullptr) {
     return false;
   }
 
-  if (data < node->getData()) {
+  if (data < node->data) {
     return removeNode(node->left, data);
-  } else if (data > node->getData()) {
+  } else if (data > node->data) {
     return removeNode(node->right, data);
   } else {
-    Node *oldRoot = node;
+    Node* oldRoot = node;
     if (node->left == nullptr) {
       node = node->right;
     } else if (node->right == nullptr) {
       node = node->left;
     } else {
-      replaceParent(oldRoot, oldRoot->right);
+      replaceParent(oldRoot, oldRoot->left);
     }
-    // TODO: possible problem area
     delete oldRoot;
+    oldRoot = nullptr;
     return true;
   }
 }
@@ -64,6 +82,7 @@ void BST::replaceParent(Node*& oldRoot, Node*& localRoot) {
     replaceParent(oldRoot, localRoot->right);
   } else {
     oldRoot->data = localRoot->data;
-    removeNode(oldRoot, localRoot->data);
+    oldRoot = localRoot;
+    localRoot = localRoot->left;
   }
 }

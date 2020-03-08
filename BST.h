@@ -49,5 +49,7 @@ class BST : public BSTInterface {
 
   static bool removeNode(Node*& node, int data);
 
+  static void removeSubtree(Node*& node);
+
   static void replaceParent(Node*& oldRoot, Node*& localRoot);
 };
