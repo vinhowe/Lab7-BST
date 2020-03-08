@@ -20,3 +20,7 @@ void Node::setLeftChild(Node* child) {
 void Node::setRightChild(Node* child) {
   right = child;
 }
+
+void Node::setData(int newData) {
+  this->data = newData;
+}

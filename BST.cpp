@@ -6,49 +6,64 @@
 
 #include "Node.h"
 
-
 BST::BST() {}
 
 BST::~BST() {}
 
 Node* BST::getRootNode() const { return root; }
 
-bool BST::add(int data) {
-  root = insert(root, data);
-}
+bool BST::add(int data) { return insert(root, data); }
 
-Node* BST::insert(Node* node, int data) {
+bool BST::insert(Node*& node, int data) {
   if (node == nullptr) {
-    return new Node(data);
+    node = new Node(data);
+    return true;
   }
 
   if (data < node->getData()) {
-    node->setLeftChild(insert(node->getLeftChild(), data));
+    return insert(node->left, data);
   } else if (data > node->getData()) {
-    node->setRightChild(insert(node->getRightChild(), data));
+    return insert(node->right, data);
   }
 
-  return node;
+  return false;
 }
 
 bool BST::remove(int data) {
-
+  return removeNode(root, data);
 }
 
 void BST::clear() {}
 
-bool BST::removeNode(Node* node, int data) {
+bool BST::removeNode(Node*& node, int data) {
   if (node == nullptr) {
     return false;
   }
 
-  if (node->getData() == data) {
-    if (node->getRightChild() == nullptr && node->getLeftChild() == nullptr) {
-      // TODO: See whether or not it's better to use free()
-      delete node;
+  if (data < node->getData()) {
+    return removeNode(node->left, data);
+  } else if (data > node->getData()) {
+    return removeNode(node->right, data);
+  } else {
+    Node *oldRoot = node;
+    if (node->left == nullptr) {
+      node = node->right;
+    } else if (node->right == nullptr) {
+      node = node->left;
+    } else {
+      replaceParent(oldRoot, oldRoot->right);
     }
-    if (node->getRightChild() == nullptr && node->getLeftChild() != nullptr) {
+    // TODO: possible problem area
+    delete oldRoot;
+    return true;
+  }
+}
 
-    }
+void BST::replaceParent(Node*& oldRoot, Node*& localRoot) {
+  if (localRoot->right != nullptr) {
+    replaceParent(oldRoot, localRoot->right);
+  } else {
+    oldRoot->data = localRoot->data;
+    removeNode(oldRoot, localRoot->data);
   }
 }

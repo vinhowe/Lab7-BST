@@ -33,8 +33,11 @@ class Node : public NodeInterface {
   void setLeftChild(Node* child);
   void setRightChild(Node* child);
 
+  void setData(int data);
+
  private:
   int data;
   Node* right = nullptr;
   Node* left = nullptr;
+  friend class BST;
 };
